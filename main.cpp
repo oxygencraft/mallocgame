@@ -1,29 +1,32 @@
 #include <raylib.h>
+#include "emptycell.h"
+#include "grid.h"
 
-void Update() {
-
-}
-
-void Draw() {
-    ClearBackground(RAYWHITE);
-
-    DrawText("Congrats! You created your first window!", 25, 80, 5, LIGHTGRAY);
-}
 
 int main() {
     // Initialization
     //--------------------------------------------------------------------------------------
+
     int windowWidth = 1024;
     int windowHeight = 768;
 
-    //SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(windowWidth, windowHeight, "malloc(memory);");
-
     int renderWidth = 256;
     int renderHeight = 192;
+
+    InitWindow(windowWidth, windowHeight, "malloc(memory);");
+
     RenderTexture2D screenTexture = LoadRenderTexture(renderWidth, renderHeight);
 
+    Texture2D emptyTileTexture = LoadTexture("EmptyTile.png");
+    EmptyCell emptyCell = EmptyCell(emptyTileTexture);
+    emptyCell.Draw();
+    Grid grid = Grid(4, 4, 32, 32, emptyCell);
+
+    RenderTexture2D tileTexture = LoadRenderTexture(32, 32);
+    RenderTexture2D tileTexture2 = LoadRenderTexture(32, 32);
+
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+
     //--------------------------------------------------------------------------------------
 
     // Main game loop
@@ -31,33 +34,22 @@ int main() {
     {
         // Update
         //----------------------------------------------------------------------------------
-        Update();
+        grid.Update();
         //----------------------------------------------------------------------------------
 
         // Draw
         //----------------------------------------------------------------------------------
+        Texture2D gridTexture = grid.Draw();
 
         BeginTextureMode(screenTexture);
-            Draw();
+            ClearBackground(RAYWHITE);
+            DrawTexture(gridTexture, 0, 0, WHITE);
         EndTextureMode();
 
-        //windowWidth = GetScreenWidth();
-        //windowHeight = GetScreenHeight();
-
         BeginDrawing();
-            Rectangle textureRec;
-            textureRec.x = 0;
-            textureRec.y = 0;
-            textureRec.width = (float)screenTexture.texture.width;
-            textureRec.height = (float)-screenTexture.texture.height;
-            Rectangle windowRec;
-            windowRec.x = 0;
-            windowRec.y = 0;
-            windowRec.width = (float)windowWidth;
-            windowRec.height = (float)windowHeight;
-            Vector2 position;
-            position.x = 0;
-            position.y = 0;
+            Rectangle textureRec { 0, 0, (float)screenTexture.texture.width, (float)-screenTexture.texture.height };
+            Rectangle windowRec { 0, 0, (float)windowWidth, (float)windowHeight };
+            Vector2 position { 0, 0 };
             DrawTexturePro(screenTexture.texture, textureRec, windowRec, position, 0, WHITE);
         EndDrawing();
         //----------------------------------------------------------------------------------
