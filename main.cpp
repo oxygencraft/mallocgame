@@ -7,23 +7,21 @@ int main() {
     // Initialization
     //--------------------------------------------------------------------------------------
 
-    int windowWidth = 1024;
-    int windowHeight = 768;
+    int renderWidth = 512;
+    int renderHeight = 336;
 
-    int renderWidth = 256;
-    int renderHeight = 192;
+    int windowWidth = renderWidth * 2;
+    int windowHeight = renderHeight * 2;
 
     InitWindow(windowWidth, windowHeight, "malloc(memory);");
 
     RenderTexture2D screenTexture = LoadRenderTexture(renderWidth, renderHeight);
+    Color backgroundColor = Color { 42, 23, 59, 255};
 
     Texture2D emptyTileTexture = LoadTexture("EmptyTile.png");
     EmptyCell emptyCell = EmptyCell(emptyTileTexture);
-    emptyCell.Draw();
-    Grid grid = Grid(4, 4, 32, 32, emptyCell);
-
-    RenderTexture2D tileTexture = LoadRenderTexture(32, 32);
-    RenderTexture2D tileTexture2 = LoadRenderTexture(32, 32);
+    Grid grid = Grid(12, 7, 32, 32, emptyCell);
+    Grid gridTemporary = Grid(12, 2, 32, 32, emptyCell);
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 
@@ -35,15 +33,18 @@ int main() {
         // Update
         //----------------------------------------------------------------------------------
         grid.Update();
+        gridTemporary.Update();
         //----------------------------------------------------------------------------------
 
         // Draw
         //----------------------------------------------------------------------------------
         Texture2D gridTexture = grid.Draw();
+        Texture2D gridTemporaryTexture = gridTemporary.Draw();
 
         BeginTextureMode(screenTexture);
-            ClearBackground(RAYWHITE);
-            DrawTexture(gridTexture, 0, 0, WHITE);
+            ClearBackground(backgroundColor);
+            DrawTexture(gridTexture, 16, 16, WHITE);
+            DrawTexture(gridTemporaryTexture, 16, 8 * 32, WHITE);
         EndTextureMode();
 
         BeginDrawing();
