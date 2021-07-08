@@ -8,13 +8,11 @@ class Grid;
 
 class Cell : public Object {
     public:
-        int GetGridX();
-        int GetGridY();
+        Vector2 GetGridPosition();
         Grid& GetOwner();
         Cell& Clone() override = 0;
     private:
-        int gridX;
-        int gridY;
+        Vector2 gridPosition;
         Grid* owner;
         friend class Grid;
 };

@@ -1,11 +1,7 @@
 #include "cell.h"
 
-int Cell::GetGridX() {
-    return gridX;
-}
-
-int Cell::GetGridY() {
-    return gridY;
+Vector2 Cell::GetGridPosition() {
+    return gridPosition;
 }
 
 Grid& Cell::GetOwner() {
