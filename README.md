@@ -16,12 +16,13 @@ After a while, the data is no longer used and becomes garbage.
 It is up to the player to free that garbage to make space for more data.
 
 You must fulfil all data allocations, however you have a limited amount of memory and must fulfil the most important data.
-There is a level of importance from 0 to 100. Depending on the importance, the tiles will be a different color.
+There is a level of importance from 0 to 100 which is randomly generated. Depending on the importance, the tiles will be a different color.
 To fulfil the data, the robot must be able to collect the data within an amount of time proportional to the importance.
 If the data has been freed or is still in the temporary buffer, the robot cannot fulfil the data allocation and fulfilment will fail.
 If the data is not fulfilled, the instability counter will increase depending on the importance of the data.
+The allocation request will be deleted and will slightly increase the chances of more data of critical importance spawning.
 
-Instability occurs when the instability counter is not 0.
+Instability occurs when the instability counter is above 0.
 Depending on the instability counter, some data might be randomly moved. There can also be some visual artifacts depending on the glitch counter.
 How much it moves and how often it moves and how much data is moved depends on the instability counter.
-However data cannot be deleted.
+However data cannot be deleted. You can reduce instability by successfully fulfilling data allocations.
