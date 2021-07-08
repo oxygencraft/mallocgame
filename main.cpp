@@ -8,7 +8,7 @@ int main() {
     //--------------------------------------------------------------------------------------
 
     int renderWidth = 512;
-    int renderHeight = 336;
+    int renderHeight = 352;
 
     int windowWidth = renderWidth * 2;
     int windowHeight = renderHeight * 2;
@@ -21,7 +21,7 @@ int main() {
     Texture2D emptyTileTexture = LoadTexture("EmptyTile.png");
     EmptyCell emptyCell = EmptyCell(emptyTileTexture);
     Grid grid = Grid(12, 7, 32, 32, emptyCell);
-    Grid gridTemporary = Grid(12, 2, 32, 32, emptyCell);
+    Grid gridTemporary = Grid(12, 1, 32, 32, emptyCell);
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 
@@ -43,8 +43,8 @@ int main() {
 
         BeginTextureMode(screenTexture);
             ClearBackground(backgroundColor);
-            DrawTexture(gridTexture, 16, 16, WHITE);
-            DrawTexture(gridTemporaryTexture, 16, 8 * 32, WHITE);
+            DrawTexture(gridTexture, 16, 64, WHITE);
+            DrawTexture(gridTemporaryTexture, 16, 9.5 * 32, WHITE);
         EndTextureMode();
 
         BeginDrawing();

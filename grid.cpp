@@ -6,7 +6,6 @@ Grid::Grid(int cellNumX, int cellNumY, int cellSizeX, int cellSizeY, Cell& empty
     this->cellSizeX = cellSizeX;
     this->cellSizeY = cellSizeY;
 
-    cells.clear();
     ResizeGrid(cellNumX, cellNumY);
 }
 
@@ -29,34 +28,64 @@ void Grid::ResizeGrid(int cellNumX, int cellNumY) {
     this->cellNumX = cellNumX;
     this->cellNumY = cellNumY;
 
-    std::vector<RenderTexture2D> yTextureCells;
-    yTextureCells.resize(0);
-    yTextureCells.resize(cellNumY, RenderTexture2D { 0 });
-    cellTextures.resize(cellNumX, yTextureCells);
+    for (int x = 0; x < cellTextures.size(); ++x) { // For every column that currently exists,
+        if (cellNumY > oldY) { // Add textures if we need more rows
+            for (int i = 0; i < cellNumY - oldY; ++i) {
+                cellTextures[x].push_back(RenderTexture2D { 0 });
+            }
+        } else if (cellNumY < oldY) { // Unload and remove textures if we need less rows
+            for (int i = 0; i < oldY - cellNumY; ++i) {
+                UnloadRenderTexture(cellTextures[x][oldY - i - 1]);
+                cellTextures[x].pop_back();
+            }
+        } else {
+            break; // If we don't need to change the amount of rows we have
+        }
+    }
+
+    if (cellNumX > oldX) { // Add columns
+        std::vector<RenderTexture2D> yTextureCells;
+        yTextureCells.resize(cellNumY, RenderTexture2D { 0 });
+        cellTextures.resize(cellNumX, yTextureCells);
+    } else if (cellNumX < oldX) { // Remove columns but first unload every texture
+        for (int i = 0; i < oldX - cellNumX; ++i) {
+            for (int j = 0; j < cellNumY; ++j) {
+                UnloadRenderTexture(cellTextures[i][cellNumY - j - 1]);
+            }
+            cellTextures.pop_back();
+        }
+    }
+
     gridTexture = LoadRenderTexture(GetCellNumX() * GetCellSizeX(), GetCellNumY() * GetCellSizeY());
 
-    for (int y = 0; y < oldY; ++y) {
-        if (cellNumY > oldY) {
+    for (int y = 0; y < cells.size(); ++y) { // For every column that currently exists,
+        if (cellNumY > oldY) { // Add empty cells if we need more rows
             for (int i = 0; i < cellNumY - oldY; ++i) {
                 cells[y].push_back(&emptyCell.Clone());
             }
-        } else {
+        } else if (cellNumY < oldY) { // Delete and remove cells if we need less rows
             for (int i = 0; i < oldY - cellNumY; ++i) {
+                delete cells[y][oldY - i - 1];
                 cells[y].pop_back();
             }
+        } else {
+            break; // If we don't need to change the amount of rows we have
         }
     }
 
     if (cellNumX > oldX) {
-        for (int i = 0; i < cellNumX - oldX; ++i) {
+        for (int i = 0; i < cellNumX - oldX; ++i) { // Add columns with empty cells if we need more columns
             std::vector<Cell*> cellsY;
             for (int y = 0; y < cellNumY; ++y) {
                 cellsY.push_back(&emptyCell.Clone());
             }
             cells.push_back(cellsY);
         }
-    } else {
+    } else if (cellNumX < oldX) { // Delete every cell in column and then delete this column
         for (int i = 0; i < oldX - cellNumX; ++i) {
+            for (int j = 0; j < cellNumY; ++j) {
+                delete cells[i][cellNumY - j - 1];
+            }
             cells.pop_back();
         }
     }
