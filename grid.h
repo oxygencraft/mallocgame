@@ -25,7 +25,7 @@ class Grid : public Object {
         int cellNumY;
         int cellSizeX;
         int cellSizeY;
-        Cell& emptyCell;
+        Cell* emptyCell;
         std::vector<std::vector<Cell*>> cells;
         std::vector<std::vector<RenderTexture2D>> cellTextures;
         RenderTexture2D gridTexture;

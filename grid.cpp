@@ -1,10 +1,14 @@
 #include "grid.h"
 
-Grid::Grid(int cellNumX, int cellNumY, int cellSizeX, int cellSizeY, Cell& emptyCell) : emptyCell(emptyCell) {
+Grid::Grid(int cellNumX, int cellNumY, int cellSizeX, int cellSizeY, Cell& emptyCell) {
     this->cellNumX = 0;  // Set these to 0 so ResizeGrid() works properly
     this->cellNumY = 0;
     this->cellSizeX = cellSizeX;
     this->cellSizeY = cellSizeY;
+    this->emptyCell = &emptyCell.Clone();
+
+    if (cellNumX <= 0 || cellNumY <= 0)
+        return;
 
     ResizeGrid(cellNumX, cellNumY);
 }
@@ -61,7 +65,7 @@ void Grid::ResizeGrid(int cellNumX, int cellNumY) {
     for (int y = 0; y < cells.size(); ++y) { // For every column that currently exists,
         if (cellNumY > oldY) { // Add empty cells if we need more rows
             for (int i = 0; i < cellNumY - oldY; ++i) {
-                cells[y].push_back(&emptyCell.Clone());
+                cells[y].push_back(&emptyCell->Clone());
             }
         } else if (cellNumY < oldY) { // Delete and remove cells if we need less rows
             for (int i = 0; i < oldY - cellNumY; ++i) {
@@ -77,7 +81,7 @@ void Grid::ResizeGrid(int cellNumX, int cellNumY) {
         for (int i = 0; i < cellNumX - oldX; ++i) { // Add columns with empty cells if we need more columns
             std::vector<Cell*> cellsY;
             for (int y = 0; y < cellNumY; ++y) {
-                cellsY.push_back(&emptyCell.Clone());
+                cellsY.push_back(&emptyCell->Clone());
             }
             cells.push_back(cellsY);
         }
