@@ -8,7 +8,7 @@
 
 struct Data {
     int importance;
-    DataCell cells[];
+    std::vector<DataCell> cells;
 };
 
 

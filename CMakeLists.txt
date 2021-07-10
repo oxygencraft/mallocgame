@@ -30,7 +30,7 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 
 endif()
 
-add_executable(mallocgame main.cpp grid.cpp grid.h object.h texturecell.cpp texturecell.h emptycell.cpp emptycell.h cell.cpp cell.h data.h datacell.cpp datacell.h)
+add_executable(mallocgame main.cpp grid.cpp grid.h object.h texturecell.cpp texturecell.h emptycell.cpp emptycell.h cell.cpp cell.h data.h datacell.cpp datacell.h databuffermanager.cpp databuffermanager.h game.cpp game.h)
 
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)

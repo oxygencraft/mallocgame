@@ -21,6 +21,10 @@ void Grid::SetCell(int x, int y, Cell& cell) {
     cells[x][y] = &cell;
 }
 
+void Grid::SetEmptyCell(int x, int y) {
+    cells[x][y] = &emptyCell->Clone();
+}
+
 void Grid::MoveCell(Cell& origin, Cell& target, bool destroyTarget) {
 
 }
@@ -38,8 +42,8 @@ void Grid::ResizeGrid(int cellNumX, int cellNumY) {
                 cellTextures[x].push_back(RenderTexture2D { 0 });
             }
         } else if (cellNumY < oldY) { // Unload and remove textures if we need less rows
-            for (int i = 0; i < oldY - cellNumY; ++i) {
-                UnloadRenderTexture(cellTextures[x][oldY - i - 1]);
+            for (int i = oldY - 1; i > oldY - cellNumY; --i) {
+                UnloadRenderTexture(cellTextures[x][i]);
                 cellTextures[x].pop_back();
             }
         } else {
@@ -52,9 +56,9 @@ void Grid::ResizeGrid(int cellNumX, int cellNumY) {
         yTextureCells.resize(cellNumY, RenderTexture2D { 0 });
         cellTextures.resize(cellNumX, yTextureCells);
     } else if (cellNumX < oldX) { // Remove columns but first unload every texture
-        for (int i = 0; i < oldX - cellNumX; ++i) {
+        for (int i = oldX - 1; i > oldX - cellNumX; --i) {
             for (int j = 0; j < cellNumY; ++j) {
-                UnloadRenderTexture(cellTextures[i][cellNumY - j - 1]);
+                UnloadRenderTexture(cellTextures[i][j]);
             }
             cellTextures.pop_back();
         }
@@ -68,8 +72,8 @@ void Grid::ResizeGrid(int cellNumX, int cellNumY) {
                 cells[y].push_back(&emptyCell->Clone());
             }
         } else if (cellNumY < oldY) { // Delete and remove cells if we need less rows
-            for (int i = 0; i < oldY - cellNumY; ++i) {
-                delete cells[y][oldY - i - 1];
+            for (int i = oldY - 1; i > oldY - cellNumY; --i) {
+                delete cells[y][i];
                 cells[y].pop_back();
             }
         } else {
@@ -86,9 +90,9 @@ void Grid::ResizeGrid(int cellNumX, int cellNumY) {
             cells.push_back(cellsY);
         }
     } else if (cellNumX < oldX) { // Delete every cell in column and then delete this column
-        for (int i = 0; i < oldX - cellNumX; ++i) {
+        for (int i = oldX - 1; i > oldX - cellNumX; --i) {
             for (int j = 0; j < cellNumY; ++j) {
-                delete cells[i][cellNumY - j - 1];
+                delete cells[i][j];
             }
             cells.pop_back();
         }

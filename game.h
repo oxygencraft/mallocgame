@@ -4,6 +4,7 @@
 #include <raylib.h>
 #include "grid.h"
 #include "emptycell.h"
+#include "databuffermanager.h"
 
 static const int renderWidth = 512;
 static const int renderHeight = 352;
@@ -24,9 +25,13 @@ class Game {
     private:
         RenderTexture2D screenTexture;
         Texture2D emptyTileTexture;
+        Texture2D blueTileTexture;
+        Texture2D yellowTileTexture;
+        Texture2D redTileTexture;
         EmptyCell emptyCell;
         Grid grid;
-        Grid gridTemporary;
+        Grid bufferGrid;
+        DataBufferManager dataManager;
 };
 
 
