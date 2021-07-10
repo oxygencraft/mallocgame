@@ -13,6 +13,7 @@ static const int windowWidth = renderWidth * 2;
 static const int windowHeight = renderHeight * 2;
 
 static const Color backgroundColor = Color { 42, 23, 59, 255};
+static const Color textColor = Color { 76, 92, 135, 255};
 
 class Game {
     public:

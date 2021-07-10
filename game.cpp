@@ -1,7 +1,7 @@
 #include "game.h"
 
-Game::Game() : grid(0,0,0,0,emptyCell),
-               bufferGrid(0, 0, 0, 0, emptyCell),
+Game::Game() : grid(0,0,0,0,0,0,emptyCell),
+               bufferGrid(0,0,0, 0, 0, 0, emptyCell),
                emptyCell(EmptyCell(Texture2D{0})),
                dataManager(0,grid,blueTileTexture,yellowTileTexture,redTileTexture)
                // Did not want to do any of this but compiler forced me to
@@ -17,8 +17,8 @@ Game::Game() : grid(0,0,0,0,emptyCell),
     redTileTexture = LoadTexture("resources/RedTile.png");
 
     emptyCell = EmptyCell(emptyTileTexture);
-    grid = Grid(12, 7, 32, 32, emptyCell);
-    bufferGrid = Grid(12, 1, 32, 32, emptyCell);
+    grid = Grid(16, 64, 12, 7, 32, 32, emptyCell);
+    bufferGrid = Grid(16, 9.5 * 32, 12, 1, 32, 32, emptyCell);
     dataManager = DataBufferManager(8, bufferGrid, blueTileTexture, yellowTileTexture, redTileTexture);
 }
 
@@ -36,6 +36,8 @@ void Game::Draw() {
         ClearBackground(backgroundColor);
         DrawTexture(gridTexture, 16, 64, WHITE);
         DrawTexture(bufferGridTexture, 16, 9.5 * 32, WHITE);
+        DrawText("This game is heavily unfinished and currently unplayable, see itch.io page for more details.", 16, 16, 5, textColor);
+        DrawText("This blank space is to be replaced by the logo of the game.", 16, 32, 5, textColor);
     EndTextureMode();
 
     BeginDrawing();
