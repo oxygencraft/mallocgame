@@ -1,8 +1,9 @@
 #include "grid.h"
 
-Grid::Grid(int cellNumX, int cellNumY, int cellSizeX, int cellSizeY, Cell& emptyCell) {
+Grid::Grid(int posX, int posY, int cellNumX, int cellNumY, int cellSizeX, int cellSizeY, Cell& emptyCell) {
     this->cellNumX = 0;  // Set these to 0 so ResizeGrid() works properly
     this->cellNumY = 0;
+    this->position = Vector2 { (float)posX, (float)posY };
     this->cellSizeX = cellSizeX;
     this->cellSizeY = cellSizeY;
     this->emptyCell = &emptyCell.Clone();
@@ -18,17 +19,14 @@ Cell& Grid::GetCell(int x, int y) {
 }
 
 void Grid::SetCell(int x, int y, Cell& cell) {
+    cell.gridPosition = Vector2 { (float)x, (float)y };
+    cell.owner = this;
     cells[x][y] = &cell;
 }
 
 void Grid::SetEmptyCell(int x, int y) {
     cells[x][y] = &emptyCell->Clone();
 }
-
-void Grid::MoveCell(Cell& origin, Cell& target, bool destroyTarget) {
-
-}
-
 
 void Grid::ResizeGrid(int cellNumX, int cellNumY) {
     int oldX = GetCellNumX();

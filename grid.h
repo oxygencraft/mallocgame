@@ -8,11 +8,10 @@
 
 class Grid : public Object {
     public:
-        Grid(int cellNumX, int cellNumY, int cellSizeX, int cellSizeY, Cell& emptyCell);
+        Grid(int posX, int posY, int cellNumX, int cellNumY, int cellSizeX, int cellSizeY, Cell& emptyCell);
         Cell& GetCell(int x, int y);
         void SetCell(int x, int y, Cell& cell);
         void SetEmptyCell(int x, int y);
-        void MoveCell(Cell& origin, Cell& target, bool destroyTarget = false);
         void ResizeGrid(int cellNumX, int cellNumY);
         Texture2D Draw() override;
         void Update() override;
