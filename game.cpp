@@ -36,8 +36,8 @@ void Game::Draw() {
         ClearBackground(backgroundColor);
         DrawTexture(gridTexture, 16, 64, WHITE);
         DrawTexture(bufferGridTexture, 16, 9.5 * 32, WHITE);
-        DrawText("This game is heavily unfinished and currently unplayable, see itch.io page for more details.", 16, 16, 5, textColor);
-        DrawText("This blank space is to be replaced by the logo of the game.", 16, 32, 5, textColor);
+        DrawText("This game is heavily unfinished and currently unplayable, see itch.io page for more details.", 16, 20, 5, textColor);
+        DrawText("This blank space is to be replaced by the logo of the game, which does not exist yet.", 16, 36, 5, textColor);
     EndTextureMode();
 
     BeginDrawing();
