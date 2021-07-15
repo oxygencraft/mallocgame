@@ -39,9 +39,9 @@ void GridCellMover::Update() {
                         break;
                     ++currentDataIndex;
 
-                    // Copy those cells to this class and in the grid, set those cells to empty cells
-                    cells.push_back(&currentDataCell->Clone());
-                    grid->SetEmptyCell(i, originalPositionY);
+                    // Store pointers to those cells to this class and in the grid, set those cells in the grid to moving cells
+                    cells.push_back(currentDataCell);
+                    grid->SetCell(i, originalPositionY, movingCell->Clone());
                 }
             }
         }
@@ -70,7 +70,8 @@ void GridCellMover::Update() {
 
                     Cell* checkCell = &grid->GetCell(x + i, y);
                     EmptyCell* emptyCell = dynamic_cast<EmptyCell*>(checkCell);
-                    if (!emptyCell) {
+                    MovingCell* checkMovingCell = dynamic_cast<MovingCell*>(checkCell);
+                    if (!emptyCell && !checkMovingCell) {
                         validPosition = false;
                         break;
                     }
@@ -78,8 +79,16 @@ void GridCellMover::Update() {
 
                 if (validPosition) {  // If it was successful, set the cells in the grid to the cells we are moving.
                     for (int i = 0; i < cells.size(); ++i) {
-                        grid->SetCell(x + i, y, cells[i]->Clone());
+                        grid->SetCell(x + i, y, *cells[i]);
                     }
+
+                    // Reset the cells to empty cells because we're no longer moving them
+                    for (int i = 0; i < cells.size(); ++i) {
+                        if (!dynamic_cast<MovingCell*>(&originalGrid->GetCell(originalPositionX + i, originalPositionY)))
+                            continue;
+                        originalGrid->SetEmptyCell(originalPositionX + i, originalPositionY);
+                    }
+
                     cells.clear();
                     return;
                 }
@@ -87,7 +96,7 @@ void GridCellMover::Update() {
 
             // If it was not successful (mouse not in grid or last cell out of grid), revert the cells back to where they were
             for (int i = 0; i < cells.size(); ++i) {
-                originalGrid->SetCell(originalPositionX + i, originalPositionY, cells[i]->Clone());
+                originalGrid->SetCell(originalPositionX + i, originalPositionY, *cells[i]);
             }
             cells.clear();
         }
@@ -136,6 +145,6 @@ void GridCellMover::Unload() {
 }
 
 
-GridCellMover::GridCellMover(std::vector<Grid*> grids) : grids(grids) {
+GridCellMover::GridCellMover(std::vector<Grid*> grids, Cell& movingCell) : grids(grids), movingCell(&movingCell) {
 
 }

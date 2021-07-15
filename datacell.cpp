@@ -10,13 +10,13 @@ DataCell& DataCell::Clone() {
 }
 
 Data& DataCell::GetDataOwner() {
-    return dataOwner;
+    return *dataOwner;
 }
 
 int DataCell::GetIndex() {
     return index;
 }
 
-DataCell::DataCell(Texture2D texture, Data& owner, int index) : TextureCell(texture), dataOwner(owner), index(index) {
+DataCell::DataCell(Texture2D texture, Data* owner, int index) : TextureCell(texture), dataOwner(owner), index(index) {
 
 }

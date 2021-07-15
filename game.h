@@ -6,6 +6,7 @@
 #include "emptycell.h"
 #include "databuffermanager.h"
 #include "gridcellmover.h"
+#include "movingcell.h"
 
 static const int renderWidth = 512;
 static const int renderHeight = 352;
@@ -31,6 +32,7 @@ class Game {
         Texture2D yellowTileTexture;
         Texture2D redTileTexture;
         EmptyCell emptyCell;
+        MovingCell movingCell;
         Grid grid;
         Grid bufferGrid;
         DataBufferManager dataManager;

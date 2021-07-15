@@ -10,10 +10,11 @@ class GridCellMover {
         void Update();
         Texture2D Draw();
         void Unload();
-        GridCellMover(std::vector<Grid*> grids);
+        GridCellMover(std::vector<Grid*> grids, Cell& movingCell);
     private:
         std::vector<Grid*> grids;
         std::vector<Cell*> cells;
+        Cell* movingCell;
         Grid* originalGrid;
         int originalPositionX;
         int originalPositionY;

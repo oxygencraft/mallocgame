@@ -4,8 +4,9 @@
 Game::Game() : grid(0,0,0,0,0,0,emptyCell),
                bufferGrid(0,0,0, 0, 0, 0, emptyCell),
                emptyCell(EmptyCell(Texture2D{0})),
+               movingCell(MovingCell(Texture2D{0})),
                dataManager(0,grid,blueTileTexture,yellowTileTexture,redTileTexture),
-               gridCellMover(std::vector<Grid*>())
+               gridCellMover(std::vector<Grid*>(), movingCell)
                // Did not want to do any of this but compiler forced me to
                // Also prevents me from making members references in these objects so I have to use pointers
 {
@@ -19,10 +20,11 @@ Game::Game() : grid(0,0,0,0,0,0,emptyCell),
     redTileTexture = LoadTexture("resources/RedTile.png");
 
     emptyCell = EmptyCell(emptyTileTexture);
+    movingCell = MovingCell(emptyTileTexture);
     grid = Grid(16, 64, 12, 7, 32, 32, emptyCell);
     bufferGrid = Grid(16, 9.5 * 32, 12, 1, 32, 32, emptyCell);
     dataManager = DataBufferManager(8, bufferGrid, blueTileTexture, yellowTileTexture, redTileTexture);
-    gridCellMover = GridCellMover(std::vector<Grid*> { &grid, &bufferGrid});
+    gridCellMover = GridCellMover(std::vector<Grid*> { &grid, &bufferGrid}, movingCell);
 }
 
 void Game::Update() {
