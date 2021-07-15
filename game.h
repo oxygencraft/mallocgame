@@ -5,6 +5,7 @@
 #include "grid.h"
 #include "emptycell.h"
 #include "databuffermanager.h"
+#include "gridcellmover.h"
 
 static const int renderWidth = 512;
 static const int renderHeight = 352;
@@ -33,6 +34,7 @@ class Game {
         Grid grid;
         Grid bufferGrid;
         DataBufferManager dataManager;
+        GridCellMover gridCellMover;
 };
 
 

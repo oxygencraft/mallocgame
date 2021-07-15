@@ -8,9 +8,20 @@
 class GridCellMover {
     public:
         void Update();
-        GridCellMover(std::vector<Grid> grids);
+        Texture2D Draw();
+        void Unload();
+        GridCellMover(std::vector<Grid*> grids);
     private:
-        std::vector<Grid> grids;
+        std::vector<Grid*> grids;
+        std::vector<Cell*> cells;
+        Grid* originalGrid;
+        int originalPositionX;
+        int originalPositionY;
+        int mouseOffsetX;
+        int mouseOffsetY;
+        RenderTexture2D renderTexture;
+        bool renderTextureInitialized = false;
+        Grid* GetGridFromPosition(int x, int y);
 };
 
 

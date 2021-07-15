@@ -5,7 +5,6 @@ void DataCell::Update() {
 }
 
 DataCell& DataCell::Clone() {
-    // Why would anyone clone this?
     const Texture2D texture = GetTexture();
     return *(new DataCell(texture, dataOwner, index));
 }

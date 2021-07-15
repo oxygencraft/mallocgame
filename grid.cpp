@@ -1,4 +1,5 @@
 #include "grid.h"
+#include "util.h"
 
 Grid::Grid(int posX, int posY, int cellNumX, int cellNumY, int cellSizeX, int cellSizeY, Cell& emptyCell) {
     this->cellNumX = 0;  // Set these to 0 so ResizeGrid() works properly
@@ -20,12 +21,25 @@ Cell& Grid::GetCell(int x, int y) {
 
 void Grid::SetCell(int x, int y, Cell& cell) {
     cell.gridPosition = Vector2 { (float)x, (float)y };
+    cell.position = Vector2 { (float)(x * cellSizeX) + position.x, (float)(y * cellSizeY) + position.y };
     cell.owner = this;
     cells[x][y] = &cell;
 }
 
+Cell& Grid::GetEmptyCell(int x, int y) {
+    Cell& emptyCellNew = emptyCell->Clone();
+    emptyCellNew.gridPosition = Vector2 { (float)x, (float)y };
+    emptyCellNew.position = Vector2 { (float)(x * cellSizeX) + position.x, (float)(y * cellSizeY) + position.y };
+    emptyCellNew.owner = this;
+    return emptyCellNew;
+}
+
 void Grid::SetEmptyCell(int x, int y) {
-    cells[x][y] = &emptyCell->Clone();
+    cells[x][y] = &GetEmptyCell(x, y);
+}
+
+Cell& Grid::GetCellFromScreenPosition(int x, int y) {
+    return GetCell(x / 32, y / 32);
 }
 
 void Grid::ResizeGrid(int cellNumX, int cellNumY) {
@@ -67,7 +81,7 @@ void Grid::ResizeGrid(int cellNumX, int cellNumY) {
     for (int y = 0; y < cells.size(); ++y) { // For every column that currently exists,
         if (cellNumY > oldY) { // Add empty cells if we need more rows
             for (int i = 0; i < cellNumY - oldY; ++i) {
-                cells[y].push_back(&emptyCell->Clone());
+                cells[y].push_back(&GetEmptyCell(y, i));
             }
         } else if (cellNumY < oldY) { // Delete and remove cells if we need less rows
             for (int i = oldY - 1; i > oldY - cellNumY; --i) {
@@ -83,7 +97,7 @@ void Grid::ResizeGrid(int cellNumX, int cellNumY) {
         for (int i = 0; i < cellNumX - oldX; ++i) { // Add columns with empty cells if we need more columns
             std::vector<Cell*> cellsY;
             for (int y = 0; y < cellNumY; ++y) {
-                cellsY.push_back(&emptyCell->Clone());
+                cellsY.push_back(&GetEmptyCell(i, y));
             }
             cells.push_back(cellsY);
         }
@@ -103,9 +117,10 @@ Texture2D Grid::Draw() {
             if (cellTextures[x][y].id == 0)
                 cellTextures[x][y] = LoadRenderTexture(GetCellSizeX(), GetCellSizeY());
             RenderTexture2D cellRenderTexture = cellTextures[x][y];
+            Texture2D cellTexture = cells[x][y]->Draw();
 
             BeginTextureMode(cellRenderTexture);
-                DrawTexture(cells[x][y]->Draw(), 0, 0, WHITE);
+                DrawTexture(cellTexture, 0, 0, WHITE);
             EndTextureMode();
 
             cellTextures[x][y] = cellRenderTexture;
@@ -116,7 +131,7 @@ Texture2D Grid::Draw() {
     BeginTextureMode(renderTexture);
         for (int x = 0; x < GetCellNumX(); ++x) {
             for (int y = 0; y < GetCellNumY(); ++y) {
-                DrawTexture(cellTextures[x][y].texture, x * GetCellSizeX(), y * GetCellSizeY(), WHITE);
+                DrawRenderTexture(cellTextures[x][y].texture, x * GetCellSizeX(), y * GetCellSizeY(), WHITE);
             }
         }
     EndTextureMode();
