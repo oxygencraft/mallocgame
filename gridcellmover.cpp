@@ -63,7 +63,7 @@ void GridCellMover::Update() {
 
                 // Check if all cells are in a valid position in the grid
                 for (int i = 0; i < cells.size(); ++i) {
-                    if (x + i > grid->GetCellNumX()) {
+                    if (x + i >= grid->GetCellNumX()) {
                         validPosition = false;
                         break;
                     }
