@@ -14,6 +14,7 @@ Game::Game() : grid(0,0,0,0,0,0,emptyCell),
 
     screenTexture = LoadRenderTexture(renderWidth, renderHeight);
 
+    logoTexture = LoadTexture("resources/Logo.png");
     emptyTileTexture = LoadTexture("resources/EmptyTile.png");
     blueTileTexture = LoadTexture("resources/BlueTile.png");
     yellowTileTexture = LoadTexture("resources/YellowTile.png");
@@ -45,8 +46,8 @@ void Game::Draw() {
         DrawRenderTexture(gridTexture, 16, 64, WHITE);
         DrawRenderTexture(bufferGridTexture, 16, 9.5 * 32, WHITE);
 
-        DrawText("This game is heavily unfinished and currently unplayable, see itch.io page for more details.", 16, 20, 5, textColor);
-        DrawText("This blank space is to be replaced by the logo of the game, which does not exist yet.", 16, 36, 5, textColor);
+        DrawTexture(logoTexture, 16, 0, WHITE);
+        DrawText("This game is heavily unfinished and currently unplayable, see itch.io page for more details.", 16, 52, 5, textColor);
 
         DrawRenderTexture(gridMoverTexture, 0, 0, WHITE);
     EndTextureMode();
@@ -64,6 +65,7 @@ void Game::UnloadGame() {
     bufferGrid.ResizeGrid(0, 0);
     gridCellMover.Unload();
 
+    UnloadTexture(logoTexture);
     UnloadTexture(emptyTileTexture);
     UnloadTexture(blueTileTexture);
     UnloadTexture(yellowTileTexture);

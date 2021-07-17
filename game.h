@@ -27,6 +27,7 @@ class Game {
 
     private:
         RenderTexture2D screenTexture;
+        Texture2D logoTexture;
         Texture2D emptyTileTexture;
         Texture2D blueTileTexture;
         Texture2D yellowTileTexture;
