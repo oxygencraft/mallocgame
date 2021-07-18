@@ -19,6 +19,7 @@ Game::Game() : grid(0,0,0,0,0,0,emptyCell),
     blueTileTexture = LoadTexture("resources/BlueTile.png");
     yellowTileTexture = LoadTexture("resources/YellowTile.png");
     redTileTexture = LoadTexture("resources/RedTile.png");
+    robotTexture = LoadTexture("resources/Robot.png");
 
     emptyCell = EmptyCell(emptyTileTexture);
     movingCell = MovingCell(emptyTileTexture);

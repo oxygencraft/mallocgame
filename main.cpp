@@ -7,7 +7,7 @@ int main() {
     // Initialization
     //--------------------------------------------------------------------------------------
 
-    Game game;
+    Game* game = new Game();
 
     //--------------------------------------------------------------------------------------
 
@@ -16,12 +16,13 @@ int main() {
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-        game.UpdateDrawFrame();
+        game->UpdateDrawFrame();
     }
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    game.UnloadGame();
+    game->UnloadGame();
+    delete game;
     //--------------------------------------------------------------------------------------
 
     return 0;

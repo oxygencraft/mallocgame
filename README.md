@@ -1,5 +1,7 @@
 # malloc(memory);
 
+itch.io page: https://oxygencraft.itch.io/mallocmemory
+
 You are a memory allocator trying to manage the memory of a computer that is managing the power grid.
 If the computer fails the job by being too slow then the computer will shut off due to lack of power and game over.
 

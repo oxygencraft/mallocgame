@@ -1,5 +1,4 @@
-#ifndef MALLOCGAME_GAME_H
-#define MALLOCGAME_GAME_H
+#pragma once
 
 #include <raylib.h>
 #include "grid.h"
@@ -18,27 +17,25 @@ static const Color backgroundColor = Color { 42, 23, 59, 255};
 static const Color textColor = Color { 76, 92, 135, 255};
 
 class Game {
-    public:
-        Game();
-        void Update();
-        void Draw();
-        void UnloadGame();
-        void UpdateDrawFrame();
+public:
+    Game();
+    void Update();
+    void Draw();
+    void UnloadGame();
+    void UpdateDrawFrame();
 
-    private:
-        RenderTexture2D screenTexture;
-        Texture2D logoTexture;
-        Texture2D emptyTileTexture;
-        Texture2D blueTileTexture;
-        Texture2D yellowTileTexture;
-        Texture2D redTileTexture;
-        EmptyCell emptyCell;
-        MovingCell movingCell;
-        Grid grid;
-        Grid bufferGrid;
-        DataBufferManager dataManager;
-        GridCellMover gridCellMover;
+private:
+    RenderTexture2D screenTexture;
+    Texture2D logoTexture;
+    Texture2D emptyTileTexture;
+    Texture2D blueTileTexture;
+    Texture2D yellowTileTexture;
+    Texture2D redTileTexture;
+    Texture2D robotTexture;
+    EmptyCell emptyCell;
+    MovingCell movingCell;
+    Grid grid;
+    Grid bufferGrid;
+    DataBufferManager dataManager;
+    GridCellMover gridCellMover;
 };
-
-
-#endif //MALLOCGAME_GAME_H
