@@ -6,6 +6,7 @@
 #include "databuffermanager.h"
 #include "gridcellmover.h"
 #include "movingcell.h"
+#include "dataallocationmanager.h"
 
 static const int renderWidth = 512;
 static const int renderHeight = 352;
@@ -36,6 +37,7 @@ private:
     MovingCell movingCell;
     Grid grid;
     Grid bufferGrid;
-    DataBufferManager dataManager;
+    DataAllocationManager dataAllocationManager;
+    DataBufferManager dataBufferManager;
     GridCellMover gridCellMover;
 };

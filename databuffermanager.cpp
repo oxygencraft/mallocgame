@@ -84,16 +84,15 @@ void DataBufferManager::GenerateData() {
     }
 
     queuedData.push_back(data);
+    allocationManager->AddData(*data);
 }
 
 const std::vector<Data*>& DataBufferManager::GetQueuedData() {
     return queuedData;
 }
 
-DataBufferManager::DataBufferManager(double spawnRate, Grid& bufferGrid,
+DataBufferManager::DataBufferManager(double spawnRate, Grid& bufferGrid, DataAllocationManager& dataAllocationManager,
                                      Texture2D blueTileTexture, Texture2D yellowTileTexture, Texture2D redTileTexture)
-                         : spawnRate(spawnRate), bufferGrid(&bufferGrid),
+                         : spawnRate(spawnRate), bufferGrid(&bufferGrid), allocationManager(&dataAllocationManager),
                            blueTileTexture(blueTileTexture), yellowTileTexture(yellowTileTexture), redTileTexture(redTileTexture)
-                           {
-
-}
+                           {}

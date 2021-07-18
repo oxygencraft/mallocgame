@@ -4,6 +4,6 @@ Vector2 Cell::GetGridPosition() {
     return gridPosition;
 }
 
-Grid& Cell::GetOwner() {
-    return *owner;
+Grid* Cell::GetOwner() {
+    return owner;
 }

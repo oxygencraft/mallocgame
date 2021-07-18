@@ -40,6 +40,7 @@ void GridCellMover::Update() {
                     ++currentDataIndex;
 
                     // Store pointers to those cells to this class and in the grid, set those cells in the grid to moving cells
+                    currentDataCell->owner = nullptr;
                     cells.push_back(currentDataCell);
                     grid->SetCell(i, originalPositionY, movingCell->Clone());
                 }
