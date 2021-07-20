@@ -30,7 +30,7 @@ Game::Game() : grid(0,0,0,0,0,0,emptyCell),
     bufferGrid = Grid(16, 9.5 * 32, 12, 1, 32, 32, emptyCell);
     dataBufferManager = DataBufferManager(8, bufferGrid, dataAllocationManager, blueTileTexture, yellowTileTexture, redTileTexture);
     gridCellMover = GridCellMover(std::vector<Grid*> { &grid, &bufferGrid}, movingCell);
-    cellDeleter = CellDeleter(std::vector<Grid*> { &grid, &bufferGrid}, Vector2 { 416, 64 }, deleteButtonTexture, deleteEnabledButtonTexture);
+    cellDeleter = CellDeleter(std::vector<Grid*> { &grid, &bufferGrid}, Vector2 { 416, 80 }, deleteButtonTexture, deleteEnabledButtonTexture);
 }
 
 void Game::Update() {
