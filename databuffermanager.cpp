@@ -60,7 +60,7 @@ void DataBufferManager::NextCurrentData() {
 
     bufferGrid->ResizeGrid(data->cells.size(), 1);
     for (int i = 0; i < data->cells.size(); ++i) {
-        bufferGrid->SetCell(i, 0, data->cells[i]);
+        bufferGrid->SetCell(i, 0, *data->cells[i]);
     }
 
     hasResizedToEmptyGrid = false;
@@ -80,7 +80,7 @@ void DataBufferManager::GenerateData() {
         cellTexture = blueTileTexture;
 
     for (int i = 0; i < size; ++i) {
-        data->cells.emplace_back(cellTexture, data, i);
+        data->cells.push_back(new DataCell(cellTexture, data, i));
     }
 
     queuedData.push_back(data);

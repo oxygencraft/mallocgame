@@ -7,6 +7,7 @@
 #include "gridcellmover.h"
 #include "movingcell.h"
 #include "dataallocationmanager.h"
+#include "celldeleter.h"
 
 static const int renderWidth = 512;
 static const int renderHeight = 352;
@@ -33,6 +34,8 @@ private:
     Texture2D yellowTileTexture;
     Texture2D redTileTexture;
     Texture2D robotTexture;
+    Texture2D deleteButtonTexture;
+    Texture2D deleteEnabledButtonTexture;
     EmptyCell emptyCell;
     MovingCell movingCell;
     Grid grid;
@@ -40,4 +43,5 @@ private:
     DataAllocationManager dataAllocationManager;
     DataBufferManager dataBufferManager;
     GridCellMover gridCellMover;
+    CellDeleter cellDeleter;
 };

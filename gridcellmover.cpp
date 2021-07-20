@@ -13,7 +13,7 @@ void GridCellMover::Update() {
     // Check if left mouse button is being pressed
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && cells.empty()) {
         // If so, check if it is in the position of a grid in the list of grids
-        Grid* grid = GetGridFromPosition(mousePositionX, mousePositionY);
+        Grid* grid = GetGridFromPosition(mousePositionX, mousePositionY, grids);
         if (grid != nullptr) {
             // If it is, where in the grid is it and what cell is the mouse on
             Cell& cell = grid->GetCellFromScreenPosition(mousePositionX - grid->position.x,
@@ -55,7 +55,7 @@ void GridCellMover::Update() {
         // Handled in Draw function
 
         if (!IsMouseButtonDown(MOUSE_LEFT_BUTTON)) { // If not, find the grid position and cells that the mouse position is in
-            Grid* grid = GetGridFromPosition(mousePositionX, mousePositionY);
+            Grid* grid = GetGridFromPosition(mousePositionX, mousePositionY, grids);
             if (grid != nullptr) {
                 Cell& cell = grid->GetCellFromScreenPosition(mousePositionX - grid->position.x, mousePositionY - grid->position.y);
                 int x = cell.GetGridPosition().x;
@@ -123,22 +123,6 @@ Texture2D GridCellMover::Draw() {
     EndTextureMode();
 
     return renderTexture.texture;
-}
-
-
-Grid* GridCellMover::GetGridFromPosition(int x, int y) {
-    for (auto& grid : grids) {
-        int startPosX = grid->position.x;
-        int startPosY = grid->position.y;
-        int gridSizeX = grid->GetCellNumX() * grid->GetCellSizeX() + startPosX;
-        int gridSizeY = grid->GetCellNumY() * grid->GetCellSizeY() + startPosY;
-
-        if (startPosX < x && gridSizeX > x && startPosY < y && gridSizeY > y) {
-            return grid;
-        }
-    }
-
-    return nullptr;
 }
 
 void GridCellMover::Unload() {

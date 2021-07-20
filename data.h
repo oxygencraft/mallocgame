@@ -5,5 +5,5 @@
 
 struct Data {
     int importance;
-    std::vector<DataCell> cells;
+    std::vector<DataCell*> cells;
 };

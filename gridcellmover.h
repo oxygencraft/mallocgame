@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "grid.h"
+#include "util.h"
 
 class GridCellMover {
 public:
@@ -20,5 +21,4 @@ private:
     int mouseOffsetY;
     RenderTexture2D renderTexture;
     bool renderTextureInitialized = false;
-    Grid* GetGridFromPosition(int x, int y);
 };
