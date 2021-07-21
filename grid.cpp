@@ -1,13 +1,14 @@
 #include "grid.h"
 #include "util.h"
 
-Grid::Grid(int posX, int posY, int cellNumX, int cellNumY, int cellSizeX, int cellSizeY, Cell& emptyCell) {
+Grid::Grid(int posX, int posY, int cellNumX, int cellNumY, int cellSizeX, int cellSizeY, Cell& emptyCell, bool noDrawing) {
     this->cellNumX = 0;  // Set these to 0 so ResizeGrid() works properly
     this->cellNumY = 0;
     this->position = Vector2 { (float)posX, (float)posY };
     this->cellSizeX = cellSizeX;
     this->cellSizeY = cellSizeY;
     this->emptyCell = &emptyCell.Clone();
+    this->noDrawing = noDrawing;
 
     if (cellNumX <= 0 || cellNumY <= 0)
         return;
@@ -48,31 +49,33 @@ void Grid::ResizeGrid(int cellNumX, int cellNumY) {
     this->cellNumX = cellNumX;
     this->cellNumY = cellNumY;
 
-    for (int x = 0; x < cellTextures.size(); ++x) { // For every column that currently exists,
-        if (cellNumY > oldY) { // Add textures if we need more rows
-            for (int i = 0; i < cellNumY - oldY; ++i) {
-                cellTextures[x].push_back(RenderTexture2D { 0 });
+    if (!noDrawing) {
+        for (int x = 0; x < cellTextures.size(); ++x) { // For every column that currently exists,
+            if (cellNumY > oldY) { // Add textures if we need more rows
+                for (int i = 0; i < cellNumY - oldY; ++i) {
+                    cellTextures[x].push_back(RenderTexture2D { 0 });
+                }
+            } else if (cellNumY < oldY) { // Unload and remove textures if we need less rows
+                for (int i = oldY - 1; i > oldY - cellNumY; --i) {
+                    UnloadRenderTexture(cellTextures[x][i]);
+                    cellTextures[x].pop_back();
+                }
+            } else {
+                break; // If we don't need to change the amount of rows we have
             }
-        } else if (cellNumY < oldY) { // Unload and remove textures if we need less rows
-            for (int i = oldY - 1; i > oldY - cellNumY; --i) {
-                UnloadRenderTexture(cellTextures[x][i]);
-                cellTextures[x].pop_back();
-            }
-        } else {
-            break; // If we don't need to change the amount of rows we have
         }
-    }
 
-    if (cellNumX > oldX) { // Add columns
-        std::vector<RenderTexture2D> yTextureCells;
-        yTextureCells.resize(cellNumY, RenderTexture2D { 0 });
-        cellTextures.resize(cellNumX, yTextureCells);
-    } else if (cellNumX < oldX) { // Remove columns but first unload every texture
-        for (int i = oldX - 1; i > oldX - cellNumX; --i) {
-            for (int j = 0; j < cellNumY; ++j) {
-                UnloadRenderTexture(cellTextures[i][j]);
+        if (cellNumX > oldX) { // Add columns
+            std::vector<RenderTexture2D> yTextureCells;
+            yTextureCells.resize(cellNumY, RenderTexture2D { 0 });
+            cellTextures.resize(cellNumX, yTextureCells);
+        } else if (cellNumX < oldX) { // Remove columns but first unload every texture
+            for (int i = oldX - 1; i > oldX - cellNumX; --i) {
+                for (int j = 0; j < cellNumY; ++j) {
+                    UnloadRenderTexture(cellTextures[i][j]);
+                }
+                cellTextures.pop_back();
             }
-            cellTextures.pop_back();
         }
     }
 
@@ -112,6 +115,9 @@ void Grid::ResizeGrid(int cellNumX, int cellNumY) {
 }
 
 Texture2D Grid::Draw() {
+    if (noDrawing)
+        return gridTexture.texture;
+
     for (int x = 0; x < GetCellNumX(); ++x) {
         for (int y = 0; y < GetCellNumY(); ++y) {
             if (cellTextures[x][y].id == 0)
