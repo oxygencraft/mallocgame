@@ -40,7 +40,7 @@ void Grid::SetEmptyCell(int x, int y) {
 }
 
 Cell& Grid::GetCellFromScreenPosition(int x, int y) {
-    return GetCell(x / 32, y / 32);
+    return GetCell(x / GetCellSizeX(), y / GetCellSizeY());
 }
 
 void Grid::ResizeGrid(int cellNumX, int cellNumY) {

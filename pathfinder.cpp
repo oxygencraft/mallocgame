@@ -80,6 +80,8 @@ std::unordered_set<PathCell*> Pathfinder::GetNeighbours(PathCell& pathCell) {
     if (y + 1 < pathfinderGrid.GetCellNumY()) neighbours.insert(&GetPathCell(x, y + 1));
     // Down
     if (y - 1 >= 0) neighbours.insert(&GetPathCell(x, y - 1));
+
+    return neighbours;
 }
 
 int Pathfinder::CalculateDistanceCost(PathCell& startCell, PathCell& endCell) {
